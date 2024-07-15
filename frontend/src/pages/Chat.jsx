@@ -48,6 +48,11 @@ const Chat = () => {
       getUserChats()
         .then((data) => {
           setChatMessages([...data.chats]);
+          if (data.chats.length === 0) {
+           return toast.success("No chats available, Start Conversation", {
+              id: "loadchats",
+            });
+          }
           toast.success("Chats loaded succussfully", { id: "loadchats" });
         })
         .catch((error) => {

@@ -45,22 +45,18 @@ const Header = () => {
             </>
           ) : (
             <>
-              {!loginPage && (
-                <NavigationalLink
-                  bg="#00fffc"
-                  to="/login"
-                  text="Login"
-                  textColor="black"
-                />
-              )}
-              {!signupPage && (
-                <NavigationalLink
-                  bg="#51538f"
-                  to="/signup"
-                  text="Signup"
-                  textColor="white"
-                />
-              )}
+              <NavigationalLink
+                bg="#00fffc"
+                to="/login"
+                text="Login"
+                textColor="black"
+              />
+              <NavigationalLink
+                bg="#51538f"
+                to="/signup"
+                text="Signup"
+                textColor="white"
+              />
             </>
           )}{" "}
         </div>
