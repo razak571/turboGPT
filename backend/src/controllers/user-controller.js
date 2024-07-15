@@ -6,7 +6,7 @@ import { COOKIE_NAME } from "../utils/constants.js";
 // const domain = process.env.CLIENT_DOMAIN;
 const domain =
   process.env.NODE_ENV === "production"
-    ? `https://turbogpt-server.onrender.com`
+    ? `.turbogpt-server.onrender.com`
     : "localhost";
 
 console.log("domain::", domain);
