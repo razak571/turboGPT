@@ -39,4 +39,46 @@ const generateChatCompletion = async (req, res) => {
   }
 };
 
-export { generateChatCompletion };
+const sendChatsToUser = async (req, res) => {
+  try {
+    const user = await userModel.findById(res.locals.jwtData.id);
+    if (!user) {
+      return res
+        .status(401)
+        .json({ message: "User not rigistered or Token mulfunctioned" });
+    }
+
+    if (user._id.toString() !== res.locals.jwtData.id) {
+      return res.status(401).json({ message: "Permisions didn't match" });
+    }
+
+    return res.status(200).json({ message: "OK", chats: user.chats });
+  } catch (error) {
+    console.log("chat controller :: sendChatsToUser error ::", error);
+    return res.status(500).json({ message: "Error", cause: error.message });
+  }
+};
+
+const deleteChats = async (req, res) => {
+  try {
+    const user = await userModel.findById(res.locals.jwtData.id);
+    if (!user) {
+      return res
+        .status(401)
+        .json({ message: "User not rigistered or Token mulfunctioned" });
+    }
+
+    if (user._id.toString() !== res.locals.jwtData.id) {
+      return res.status(401).json({ message: "Permisions didn't match" });
+    }
+
+    user.chats = [];
+    await user.save();
+    return res.status(200).json({ message: "Chats Deleted" });
+  } catch (error) {
+    console.log("chat controller :: sendChatsToUser error ::", error);
+    return res.status(500).json({ message: "Error", cause: error.message });
+  }
+};
+
+export { generateChatCompletion, sendChatsToUser, deleteChats };

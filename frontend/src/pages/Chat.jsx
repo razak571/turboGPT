@@ -1,10 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Box, Avatar, Typography, Button, IconButton } from "@mui/material";
 import red from "@mui/material/colors/red";
 import { useAuth } from "../context/AuthContext";
 import Chatitem from "../components/chat/Chatitem";
 import { IoMdSend } from "react-icons/io";
-import { sendChatRequest } from "../helpers/api-communicator";
+import {
+  deleteChats,
+  getUserChats,
+  sendChatRequest,
+} from "../helpers/api-communicator";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
@@ -24,6 +28,34 @@ const Chat = () => {
     const chatData = await sendChatRequest(content);
     setChatMessages([...chatData.chats]);
   };
+
+  const handleDeleteChats = async (e) => {
+    e.preventDefault();
+    try {
+      toast.loading("Deleting Chats", { id: "deletechats" });
+      await deleteChats();
+      setChatMessages([]);
+      toast.success("Chats Deleted Successfully", { id: "deletechats" });
+    } catch (error) {
+      console.log("Error Deleting Chats ::", error);
+      toast.error("Chats DEleteing Failde", { id: "deletechats" });
+    }
+  };
+
+  useLayoutEffect(() => {
+    if (auth?.isLoggedIn && auth?.user) {
+      toast.loading("Loading Chats", { id: "loadchats" });
+      getUserChats()
+        .then((data) => {
+          setChatMessages([...data.chats]);
+          toast.success("Chats loaded succussfully", { id: "loadchats" });
+        })
+        .catch((error) => {
+          console.log("Error loading chats ::", error);
+          toast.error("Loading Chats Failed", { id: "loadchats" });
+        });
+    }
+  }, []);
 
   useEffect(() => {
     if (!auth?.user) {
@@ -81,6 +113,7 @@ const Chat = () => {
             Education, etc. But avoid sharing personal information.{" "}
           </Typography>
           <Button
+            onClick={handleDeleteChats}
             sx={{
               width: "200px",
               my: "auto",
