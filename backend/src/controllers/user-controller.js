@@ -6,8 +6,10 @@ import { COOKIE_NAME } from "../utils/constants.js";
 // const domain = process.env.CLIENT_DOMAIN;
 const domain =
   process.env.NODE_ENV === "production"
-    ? "https://turbogpt-server.onrender.com"
+    ? "turbogpt"
     : "localhost";
+
+console.log("domain::", domain);
 
 const getAllUsers = async (req, res, next) => {
   try {
