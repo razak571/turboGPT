@@ -141,6 +141,7 @@ const userLogout = async (req, res) => {
       httpOnly: true,
       signed: true,
       secure: true,
+      sameSite: "None",
     });
 
     return res.status(200).json({ message: "Logout successful" });
