@@ -3,13 +3,10 @@ import { compare, hash } from "bcrypt";
 import { createToken } from "../utils/token-managers.js";
 import { COOKIE_NAME } from "../utils/constants.js";
 
-// const domain = process.env.CLIENT_DOMAIN;
 const domain =
   process.env.NODE_ENV === "production"
     ? `.turbogpt-server.onrender.com`
     : "localhost";
-
-console.log("domain::", domain);
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -41,7 +38,7 @@ const userSignup = async (req, res) => {
       signed: true,
       path: "/",
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax", // need to set it as None but lets ckeck with Lax first
+      sameSite: "None",
     });
     const token = createToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
@@ -53,7 +50,7 @@ const userSignup = async (req, res) => {
       httpOnly: true,
       signed: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax",
+      sameSite: "None",
     });
 
     return res
@@ -85,7 +82,7 @@ const userLogin = async (req, res) => {
       httpOnly: true,
       signed: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax",
+      sameSite: "None",
     });
     const token = createToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
@@ -97,7 +94,7 @@ const userLogin = async (req, res) => {
       signed: true,
       expires,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax",
+      sameSite: "None",
     });
 
     return res
