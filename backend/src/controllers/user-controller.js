@@ -3,7 +3,11 @@ import { compare, hash } from "bcrypt";
 import { createToken } from "../utils/token-managers.js";
 import { COOKIE_NAME } from "../utils/constants.js";
 
-const domain = process.env.CLIENT_DOMAIN;
+// const domain = process.env.CLIENT_DOMAIN;
+const domain =
+  process.env.NODE_ENV === "production"
+    ? ".turbogpt.onrender.com"
+    : "localhost";
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -31,21 +35,23 @@ const userSignup = async (req, res) => {
 
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: domain,
+      domain,
       signed: true,
       path: "/",
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
     });
     const token = createToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: domain,
+      domain,
       expires,
       httpOnly: true,
       signed: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
     });
 
     return res
@@ -73,21 +79,23 @@ const userLogin = async (req, res) => {
 
     res.clearCookie(COOKIE_NAME, {
       path: "/",
-      domain: domain,
+      domain,
       httpOnly: true,
       signed: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
     });
     const token = createToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: domain,
+      domain,
       httpOnly: true,
       signed: true,
       expires,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
     });
 
     return res
