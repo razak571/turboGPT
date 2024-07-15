@@ -41,7 +41,7 @@ const userSignup = async (req, res) => {
       signed: true,
       path: "/",
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: "Lax", // need to set it as None but lets ckeck with Lax first
     });
     const token = createToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
@@ -53,7 +53,7 @@ const userSignup = async (req, res) => {
       httpOnly: true,
       signed: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: "Lax",
     });
 
     return res
@@ -85,7 +85,7 @@ const userLogin = async (req, res) => {
       httpOnly: true,
       signed: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: "Lax",
     });
     const token = createToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
@@ -97,7 +97,7 @@ const userLogin = async (req, res) => {
       signed: true,
       expires,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      sameSite: "Lax",
     });
 
     return res
