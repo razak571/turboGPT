@@ -60,7 +60,7 @@ const Chat = () => {
           toast.error("Loading Chats Failed", { id: "loadchats" });
         });
     }
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     if (!auth?.user) {
@@ -96,6 +96,7 @@ const Chat = () => {
             borderRadius: 5,
             flexDirection: "column",
             mx: 3,
+            mt: 2,
           }}
         >
           <Avatar
