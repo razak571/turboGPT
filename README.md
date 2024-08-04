@@ -66,3 +66,7 @@ It's a completely secure application using **JWT Tokens**, **HTTP-Only Cookies**
 1. Register for a new account or login with your existing credentials.
 2. Start chatting with TurboGPT and receive AI-powered responses.
 3. View and manage your chat history.
+
+⭐ If you like this project, please give it a star!
+
+Created with ❤️ by [Razak Attar](https://github.com/razak571)
